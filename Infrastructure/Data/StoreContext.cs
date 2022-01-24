@@ -25,6 +25,22 @@ namespace Infastructure.Data
         protected override void OnModelCreating(ModelBuilder modelbuilder){
           base.OnModelCreating(modelbuilder);
           modelbuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+          // my database is sqlserver 
+          // sqlite database does not support decimal 
+          // so we need to convert it manually to double 
+          // this section is just educational
+
+          if( Database.ProviderName == "Microsoft.EntityFrameworkCore.SqLite"){
+               
+               foreach( var entityType in modelbuilder.Model.GetEntityTypes()){
+                   
+                   var properties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));
+                   foreach(var property in properties){
+                     modelbuilder.Entity(entityType.Name).Property(property.Name).HasConversion<double>();
+                   }
+               }
+          }
+
         }
     }
 }
