@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Helpers
 {
-    public class ProfileUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
+    public class ProductUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
     {
         private readonly IConfiguration _config;
 
-        public ProfileUrlResolver(IConfiguration  config)
+        public ProductUrlResolver(IConfiguration  config)
         {
             _config = config;
         }
